@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('supply');
             $table->string('bottle');
             $table->string('age');
+            $table->string('price');
             $table->string('temperature');
             $table->string('wine_type');
             $table->timestamps();
