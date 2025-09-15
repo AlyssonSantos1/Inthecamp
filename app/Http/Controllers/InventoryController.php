@@ -29,6 +29,7 @@ class InventoryController extends Controller
         ]);
 
         Ware::Create([
+            
 
         ]);
 

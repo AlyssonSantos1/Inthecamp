@@ -18,30 +18,65 @@ class AttendantController extends Controller
     //criar a funcao porem verificar se ele é um vendedor/seller como uma condicao no caso if e puxar
     // a sessao onde ta esses dados no caso a model
 
-    public function create()
+    public function create(Request $request)
     {
-        return view ('');
+        return view ('SellerArea.seller.blade.php');
     }
 
-    public function store()
+    public function store(Request $request)
     {
         $User = auth()->user();
         //if $user =  Sale as a model to indicates 
         //continue.
 
         $User = request()->validate([
-            'supply' => 'required|string',
-            'bottle' => 'required|string',
-            'age' => 'required|string',
+            'amount' => 'required|string',
             'price' => 'required|string',
-            'temperature' => 'required|string',
-            'wine_type' => 'required|string'
-        ]);
+            'type_bottle' => 'required|string'
 
-        Sale::read([
+
 
         ]);
 
+        Sale::create([
+        'amount' => $amount,
+        'price' => $price,
+        'type_bottle' => $type_bottle
+
+        ]);
+
+        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
+            return response()->json(['message'=> 'all fields are required.'], 401);
+        }
     }
 
+    public function booking(Request $request)
+    {
+        return view('SellerArea.merchant.blade.php');
+    }
+
+    public function transaction (Request $request)
+    {
+        Sale::read([
+        'amount' => 'required|string',
+        'price' => 'required|string',
+        'type_bottle' => 'required|string'
+
+        ]);
+    }
+
+    public function asks(Request $request)
+    {
+        return view('SellerArea.merchant.blade.php');
+    }
+
+    public function orders (Request $request)
+    {
+        Sale::update([
+        'amount' => 'required|string',
+        'price' => 'required|string',
+        'type_bottle' => 'required|string'
+
+        ]);
+    }
 }
