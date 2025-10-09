@@ -29,7 +29,12 @@ class InventoryController extends Controller
         ]);
 
         Ware::Create([
-            
+            'supply' => $supply,
+            'bottle' => $bottle,
+            'age' =>$age ,
+            'price' => $price,
+            'temperature' => $temperature,
+            'wine_type' => $wine_type
 
         ]);
 

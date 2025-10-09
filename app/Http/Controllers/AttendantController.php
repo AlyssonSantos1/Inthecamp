@@ -33,9 +33,6 @@ class AttendantController extends Controller
             'amount' => 'required|string',
             'price' => 'required|string',
             'type_bottle' => 'required|string'
-
-
-
         ]);
 
         Sale::create([
