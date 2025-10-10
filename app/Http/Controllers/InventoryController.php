@@ -13,6 +13,11 @@ class InventoryController extends Controller
         return view('Wage.index');
     }
 
+     public function newitem(Request $request)
+    {
+        return view ('Wage.newbox.blade.php');
+    }
+
     public function store()
     {
         $User = auth()->user();
@@ -23,7 +28,6 @@ class InventoryController extends Controller
             'supply' => 'required|string',
             'bottle' => 'required|string',
             'age' => 'required|string',
-            'price' => 'required|string',
             'temperature' => 'required|string',
             'wine_type' => 'required|string'
         ]);
@@ -32,11 +36,20 @@ class InventoryController extends Controller
             'supply' => $supply,
             'bottle' => $bottle,
             'age' =>$age ,
-            'price' => $price,
             'temperature' => $temperature,
             'wine_type' => $wine_type
 
         ]);
 
+        if (empty ($supply) || empty ($bottle) || empty ($age)
+            || empty ($temperature)|| empty ($wine_type)){
+            return response()->json(['message'=> 'all fields are required.'], 401);
+        }
+
+    }
+
+    public function deposit()
+    {
+        return view('Wage.index');
     }
 }

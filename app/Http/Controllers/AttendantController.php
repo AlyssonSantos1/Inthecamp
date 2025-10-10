@@ -43,9 +43,10 @@ class AttendantController extends Controller
         ]);
 
         if (empty ($amount) || empty ($price) || empty ($type_bottle)){
-            return response()->json(['message'=> 'all fields are required.'], 401);
+            return response()->json(['message'=> 'all fields are required a new register.'], 401);
         }
     }
+    //
 
     public function booking(Request $request)
     {
@@ -55,12 +56,17 @@ class AttendantController extends Controller
     public function transaction (Request $request)
     {
         Sale::read([
-        'amount' => 'required|string',
-        'price' => 'required|string',
-        'type_bottle' => 'required|string'
+        'amount' => $amount,
+        'price' => $price,
+        'type_bottle' => $type_bottle
 
         ]);
+
+        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
+            return response()->json(['message'=> 'all fields are required.'], 401);
+        }
     }
+    //
 
     public function asks(Request $request)
     {
@@ -70,10 +76,34 @@ class AttendantController extends Controller
     public function orders (Request $request)
     {
         Sale::update([
-        'amount' => 'required|string',
-        'price' => 'required|string',
-        'type_bottle' => 'required|string'
+        'amount' => $amount,
+        'price' => $price,
+        'type_bottle' => $type_bottle
 
         ]);
+
+        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
+            return response()->json(['message'=> 'all fields are required to update.'], 401);
+        }
+    }
+    //
+
+    public function trash()
+    {
+        return view('trash.blade.php');
+    }
+
+    public function exclusion()
+    {
+        Sale::delete([
+        'amount' => $amount,
+        'price' => $price,
+        'type_bottle' => $type_bottle
+
+        ]);
+
+        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
+            return response()->json(['message'=> 'all fields are required to delete.'], 401);
+        }
     }
 }
