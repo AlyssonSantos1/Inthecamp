@@ -35,7 +35,7 @@ class InventoryController extends Controller
         Ware::Create([
             'supply' => $supply,
             'bottle' => $bottle,
-            'age' =>$age ,
+            'age' =>$age,
             'temperature' => $temperature,
             'wine_type' => $wine_type
 
@@ -50,6 +50,57 @@ class InventoryController extends Controller
 
     public function deposit()
     {
-        return view('Wage.index');
+        return view('Wage.ice.blade.php');
+    }
+    //
+
+    public function max()
+    {
+        $User = auth()->user();
+        //if $user =  Sale as a model to indicates 
+        //continue.
+
+        Ware::update([
+            'supply' => $supply,
+            'bottle' => $bottle,
+            'age' =>$age,
+            'temperature' => $temperature,
+            'wine_type' => $wine_type
+
+        ]);
+
+        if (empty ($supply) || empty ($bottle) || empty ($age)
+            || empty ($temperature)|| empty ($wine_type)){
+            return response()->json(['message'=> 'all fields are required to update.'], 401);
+        }
+
+    }
+
+    public function garbage()
+    {
+        return view('Wage.refuse.blade.php');
+    }
+    //
+
+    public function scrap()
+    {
+        $User = auth()->user();
+        //if $user =  Sale as a model to indicates 
+        //continue.
+
+        Ware::delete([
+            'supply' => $supply,
+            'bottle' => $bottle,
+            'age' =>$age,
+            'temperature' => $temperature,
+            'wine_type' => $wine_type
+
+        ]);
+
+        if (empty ($supply) || empty ($bottle) || empty ($age)
+            || empty ($temperature)|| empty ($wine_type)){
+            return response()->json(['message'=> 'all fields are required to update.'], 401);
+        }
+
     }
 }
