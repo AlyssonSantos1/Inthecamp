@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use Illuminate\Support\Facades\Gate;
+
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -21,6 +23,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('inventory', fn($user) => $user->hierarchy === 'inventory');
+        Gate::define('sommelier', fn($user) => $user->hierarchy === 'sommelier');
+        Gate::define('attendant', fn($user) => $user->hierarchy === 'attendant');
     }
 }
