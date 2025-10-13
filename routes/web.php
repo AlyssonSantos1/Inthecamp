@@ -19,48 +19,48 @@ use Illuminate\Auth\Middleware\Authenticate;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+// Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+// Route::post('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 
-Route::middleware(['auth'])->group(function () {
+// Route::middleware(['auth'])->group(function () {
 
-    Route::middleware(function ($request, $next) {
-        if (Gate::denies('inventory')) {
-            return redirect('/');
-        }
-        return $next($request);
-    })->group(function () {
-        Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+//     Route::middleware(function ($request, $next) {
+//         if (Gate::denies('inventory')) {
+//             return redirect('/');
+//         }
+//         return $next($request);
+//     })->group(function () {
+//         Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
    
-    });
-    //
+//     });
+//     //
     
-    Route::middleware(function ($request, $next) {
-        if (Gate::denies('sommelier')) {
-            return redirect('/');
-        }
-        return $next($request);
-    })->group(function () {
-        Route::get('/sommelier', [SommelierController::class, 'index'])->name('sommelier.index');
+//     Route::middleware(function ($request, $next) {
+//         if (Gate::denies('sommelier')) {
+//             return redirect('/');
+//         }
+//         return $next($request);
+//     })->group(function () {
+//         Route::get('/sommelier', [SommelierController::class, 'index'])->name('sommelier.index');
     
-    });
-    //
+//     });
+//     //
 
-    Route::middleware(function ($request, $next) {
-        if (Gate::denies('attendant')) {
-            return redirect('/');
-        }
-        return $next($request);
-    })->group(function () {
-        Route::get('/attendant', [AttendantController::class, 'index'])->name('attendant.index');
+//     Route::middleware(function ($request, $next) {
+//         if (Gate::denies('attendant')) {
+//             return redirect('/');
+//         }
+//         return $next($request);
+//     })->group(function () {
+//         Route::get('/attendant', [AttendantController::class, 'index'])->name('attendant.index');
         
-    });
+//     });
 
-});
+// });
 //
 
 
