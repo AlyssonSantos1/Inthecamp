@@ -50,15 +50,20 @@ class InventoryController extends Controller
 
     public function deposit()
     {
-        return view('Wage.ice.blade.php');
+        return view('Wage.feature.blade.php');
     }
     //
 
-    public function max()
+    public function max(Request $request, int $id)
     {
         $User = auth()->user();
         //if $user =  Sale as a model to indicates 
         //continue.
+        $Ware = Ware::find($id);
+
+        if(!$Ware){
+            return response()->json(['register not found'],404);
+        }
 
         Ware::update([
             'supply' => $supply,
@@ -82,24 +87,26 @@ class InventoryController extends Controller
     }
     //
 
-    public function scrap()
+    public function scrap(Request $request, int $id)
     {
         $User = auth()->user();
         //if $user =  Sale as a model to indicates 
         //continue.
 
-        Ware::delete([
-            'supply' => $supply,
-            'bottle' => $bottle,
-            'age' =>$age,
-            'temperature' => $temperature,
-            'wine_type' => $wine_type
+        $Ware = Ware::find($id);
 
-        ]);
+        if(!$Ware){
+            return response()->json(['register not found'],404);
+        }
+
+       $ware = delete();
+
+        return responde()->json(['the wine of register has been deleted'],404);
+        
 
         if (empty ($supply) || empty ($bottle) || empty ($age)
             || empty ($temperature)|| empty ($wine_type)){
-            return response()->json(['message'=> 'all fields are required to update.'], 401);
+            return response()->json(['message'=> 'all fields are required to delete.'], 401);
         }
 
     }

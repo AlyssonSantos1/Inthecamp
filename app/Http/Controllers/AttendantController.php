@@ -18,7 +18,7 @@ class AttendantController extends Controller
     //criar a funcao porem verificar se ele é um vendedor/seller como uma condicao no caso if e puxar
     // a sessao onde ta esses dados no caso a model
 
-    public function create(Request $request)
+    public function create()
     {
         return view ('SellerArea.seller.blade.php');
     }
@@ -48,14 +48,17 @@ class AttendantController extends Controller
     }
     //
 
-    public function booking(Request $request)
+    public function booking()
     {
         return view('SellerArea.merchant.blade.php');
     }
 
     public function transaction (Request $request)
     {
+        $User = auth()->user();
+
         Sale::read([
+
         'amount' => $amount,
         'price' => $price,
         'type_bottle' => $type_bottle
@@ -68,13 +71,21 @@ class AttendantController extends Controller
     }
     //
 
-    public function asks(Request $request)
+    public function asks()
     {
         return view('SellerArea.merchant.blade.php');
     }
 
-    public function orders (Request $request)
+    public function orders (Request $request, int $id)
     {
+        $User = auth()->user();
+
+        $Sale = Sale::find($id);
+
+        if(!$Sale){
+            return response()->json(['ask not updated,'],404);
+        }
+
         Sale::update([
         'amount' => $amount,
         'price' => $price,
@@ -93,8 +104,15 @@ class AttendantController extends Controller
         return view('trash.blade.php');
     }
 
-    public function exclusion()
+    public function exclusion(Request $request, int $id)
     {
+        $User = auth()->user();
+
+        $Sale = Sale::find($id);
+
+         if(!$Sale){
+            return response()->json(['asks cannot be deleted!,'],404);
+        }
         Sale::delete([
         'amount' => $amount,
         'price' => $price,

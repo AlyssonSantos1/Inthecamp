@@ -17,7 +17,7 @@ class SommelierController extends Controller
         return view('SommelierArea.sommelier.blade.php');
     }
 
-    public function regulation()
+    public function regulation(Request $request)
     {
         $User = auth()->user();
         //requires to user on login is a sommelier worker
@@ -45,12 +45,16 @@ class SommelierController extends Controller
         return view('SommelierArea.maitre.blade.php');
     }
 
-    public function vintage()
+    public function vintage(Request $request, int $id)
     {
-        {
         $User = auth()->user();
         //requires to user on login is a sommelier worker
         //if no returns to login menu
+        $Wine = Wine::find($id);
+
+        if(!$Wine){
+            return response()->json(['Wine cannot updated,'],404);
+        }
 
         Wine::update([
             'type_grape' =>$type_grape,
@@ -61,7 +65,7 @@ class SommelierController extends Controller
             return response()->json(['message'=> 'all fields are required.'], 401);
         }
 
-    }
+    
     }
 
 

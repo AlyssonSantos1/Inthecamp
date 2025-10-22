@@ -34,7 +34,7 @@
     input[type="number"] {
       width: 100%;
       padding: 10px;
-      background-color: #fff8cc; /* light yellow for editable fields */
+      background-color: #fff8cc;
       border: 1px solid #cccccc;
       border-radius: 4px;
     }
@@ -42,7 +42,7 @@
     select {
       width: 100%;
       padding: 10px;
-      background-color: #e0f0ff; /* light blue for dropdown */
+      background-color: #e0f0ff;
       border: 1px solid #cccccc;
       border-radius: 4px;
     }
@@ -50,7 +50,7 @@
     button {
       width: 100%;
       padding: 12px;
-      background-color: #4CAF50;
+      background-color: #d9534f; /* red for delete */
       color: white;
       border: none;
       border-radius: 4px;
@@ -59,15 +59,16 @@
     }
 
     button:hover {
-      background-color: #45a049;
+      background-color: #c9302c;
     }
   </style>
 </head>
 
 <body>
   <div class="form-container">
-    <h2>Wine Registration</h2>
-    <form>
+    <h2>Delete Wine Record</h2>
+    <form method="POST" action="/delete-wine">
+      <!-- You may need to include a hidden ID field to identify the record -->
       <div class="form-group">
         <label for="supply">Supply</label>
         <input type="text" id="supply" name="supply" required>
@@ -104,7 +105,7 @@
         </select>
       </div>
 
-      <button type="submit">Save Edit</button>
+      <button type="submit">Delete</button>
     </form>
   </div>
 </body>
