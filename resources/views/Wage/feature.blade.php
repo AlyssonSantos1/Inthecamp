@@ -66,7 +66,7 @@
 
 <body>
   <div class="form-container">
-    <h2>Delete Wine Record</h2>
+    <h2>Edit Wine Record</h2>
     <form method="POST" action="/delete-wine">
       <!-- You may need to include a hidden ID field to identify the record -->
       <div class="form-group">
