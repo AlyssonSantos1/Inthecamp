@@ -23,8 +23,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('inventory', fn($user) => $user->hierarchy === 'inventory');
-        Gate::define('sommelier', fn($user) => $user->hierarchy === 'sommelier');
-        Gate::define('attendant', fn($user) => $user->hierarchy === 'attendant');
+        Gate::define('inventory', fn($user) => $user->access_level === 'inventory');
+        Gate::define('sommelier', fn($user) => $user->access_level === 'sommelier');
+        Gate::define('attendant', fn($user) => $user->access_level === 'attendant');
     }
 }
