@@ -28,6 +28,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'create'])->name('
 
 Route::middleware(['auth', 'can:inventory'])->group(function(){
     Route::get('/', [InventoryController::class, 'dashboard']);
+    Route::post('/', [InventoryController::class, 'dashboard']);
 });
 //
 

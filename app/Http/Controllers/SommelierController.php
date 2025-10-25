@@ -20,10 +20,8 @@ class SommelierController extends Controller
     public function regulation(Request $request)
     {
         $User = auth()->user();
-        //requires to user on login is a sommelier worker
-        //if no returns to login menu
 
-        $User = request()->validate([
+        $validatedata = request()->validate([
             'type_grape' => 'requested|string',
             'temperature' => 'requested|string'
         ]);
@@ -33,12 +31,11 @@ class SommelierController extends Controller
             'temperature' => $temperature
         ]);
 
-        if (empty ($type_grape) || empty ($temperature)){
-            return response()->json(['message'=> 'all fields are required.'], 401);
-        }
+        Wine::create($validatedata);
+
+        return responde()->json(['message'=> 'the wine has been created']);
 
     }
-    //
 
     public function blend()
     {

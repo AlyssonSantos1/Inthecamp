@@ -13,11 +13,6 @@ class AttendantController extends Controller
         return view('SellerArea.index');
     }
 
-    // criar a funcao onde a view vai retornar na tela pro usuario
-
-    //criar a funcao porem verificar se ele é um vendedor/seller como uma condicao no caso if e puxar
-    // a sessao onde ta esses dados no caso a model
-
     public function create()
     {
         return view ('SellerArea.seller.blade.php');
@@ -26,27 +21,25 @@ class AttendantController extends Controller
     public function store(Request $request)
     {
         $User = auth()->user();
-        //if $user =  Sale as a model to indicates 
-        //continue.
 
-        $User = request()->validate([
+        $validatedata = request()->validate([
             'amount' => 'required|string',
             'price' => 'required|string',
             'type_bottle' => 'required|string'
         ]);
 
         Sale::create([
-        'amount' => $amount,
-        'price' => $price,
-        'type_bottle' => $type_bottle
+            'amount' => $amount,
+            'price' => $price,
+            'type_bottle' => $type_bottle
 
         ]);
 
-        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
-            return response()->json(['message'=> 'all fields are required a new register.'], 401);
-        }
+        Sale::create($validatedata);
+
+        return responde()->json(['message'=> 'the ask has been created']);
+
     }
-    //
 
     public function booking()
     {

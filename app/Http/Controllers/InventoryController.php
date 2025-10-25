@@ -24,7 +24,7 @@ class InventoryController extends Controller
         //if $user =  Sale as a model to indicates 
         //continue.
 
-        $User = request()->validate([
+        $validatedata = request()->validate([
             'supply' => 'required|string',
             'bottle' => 'required|string',
             'age' => 'required|string',
@@ -41,10 +41,9 @@ class InventoryController extends Controller
 
         ]);
 
-        if (empty ($supply) || empty ($bottle) || empty ($age)
-            || empty ($temperature)|| empty ($wine_type)){
-            return response()->json(['message'=> 'all fields are required.'], 401);
-        }
+        Ware::create($validatedata);
+
+        return response()->json(['message'=> 'the wine has been created'], 201);
 
     }
 
