@@ -52,9 +52,4 @@ Route::middleware(['auth', 'can:attendant'])->group(function(){
 });
     
 
-
-
-
-
-
 require __DIR__.'/auth.php';
