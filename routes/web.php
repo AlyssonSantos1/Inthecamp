@@ -24,7 +24,7 @@ Route::get('/', function () {
 });
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
 Route::middleware(['auth', 'can:inventory'])->group(function(){
     Route::get('/newstock', [InventoryController::class, 'newitem']);

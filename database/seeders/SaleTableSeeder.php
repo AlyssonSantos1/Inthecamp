@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Sale;
 
 class SaleTableSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class SaleTableSeeder extends Seeder
         Sale::create([
             'amount' => '6',
             'price' => '145.23',
-            'bottle' => 'Pinot Noir Grand Cru',
+            'type_bottle' => 'Pinot Noir Grand Cru',
         ]);
         
     }

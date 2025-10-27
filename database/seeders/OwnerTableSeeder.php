@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Owner;
 
 class OwnerTableSeeder extends Seeder
 {
@@ -15,22 +16,22 @@ class OwnerTableSeeder extends Seeder
         Owner::create([
             'name' => 'Emily Carter',
             'email' => 'emily.carter@email.com',
-            'password' => 'emily123',
-            'name' => 'Sommelier',
-        ]);
-        
-         Owner::create([
-            'name' => ' Jake Thompson',
-            'email' => 'jake.t@email.com',
-            'password' => 'securePass456',
-            'name' => 'Attendant',
+            'password' => bcrypt('emily123'),
+            'function' => 'Sommelier',
         ]);
 
-         Owner::create([
+        Owner::create([
+            'name' => 'Jake Thompson',
+            'email' => 'jake.t@email.com',
+            'password' => bcrypt('jake123'),
+            'function' => 'Attendant',
+        ]);
+
+        Owner::create([
             'name' => 'Olivia Brooks',
             'email' => 'olivia.b@email.com',
-            'password' => 'wineStore789',
-            'name' => 'Inventory',
+            'password' => bcrypt('olivia123'),
+            'function' => 'Inventory',
         ]);
         
     }

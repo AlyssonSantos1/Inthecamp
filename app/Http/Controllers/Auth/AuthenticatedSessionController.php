@@ -30,23 +30,24 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required',
         ]);
 
-          if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $request->session()->regenerate();
-            
-            $user = auth::user();
+        if (Auth::guard('owner')->attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ])) {
+        $request->session()->regenerate();
 
-            return match($user->acess_level){
-                'inventory' => redirect()->route('inventory.dashboard'),
-                'sommelier' => redirect()->route('sommelier.dashboard'),
-                'attendant' => redirect()->route('attendant.dashboard'),
-                default => redirect()->route('home'),
+        $owner = Auth::guard('owner')->user();
 
-            };
-            
-        }
+        return match ($owner->access_level) {
+            'inventory' => redirect()->route('inventory.dashboard'),
+            'sommelier' => redirect()->route('sommelier.dashboard'),
+            'attendant' => redirect()->route('attendant.dashboard'),
+            default => redirect('/'), // ou outra rota existente
+        };
 
+    }
         return back()->withErrors([
-            'email' => 'As credenciais fornecidas são inválidas.',
+            'email' => 'Invalid Credentials to acess.',
         ]);
 
         $request->session()->regenerate();

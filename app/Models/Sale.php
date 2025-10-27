@@ -9,5 +9,8 @@ class Sale extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['amount', 'price', 'bottle'];
+    protected $table = 'vendor';
+
+    protected $fillable = ['amount', 'price', 'type_bottle'];
+    //specificated bottle and type_bottle and differences among of them.
 }

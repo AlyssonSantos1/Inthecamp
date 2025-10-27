@@ -9,5 +9,7 @@ class Wine extends Model
 {
     use HasFactory;
 
+    protected $table = 'guru';
+
     protected $fillable = ['type_grape', 'temperature'];
 }
