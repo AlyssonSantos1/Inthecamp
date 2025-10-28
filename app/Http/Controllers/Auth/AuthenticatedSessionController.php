@@ -3,57 +3,52 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
-    public function create(): View
+    // Mostrar tela de login
+    public function create()
     {
-        return view('auth.login');
+        return view('auth.login'); // Breeze padrão
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    public function store(LoginRequest $request): RedirectResponse
+    // Processar login
+    public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if (Auth::guard('owner')->attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-        ])) {
-        $request->session()->regenerate();
+        if (Auth::guard('owner')->attempt($credentials)) {
+            $request->session()->regenerate();
 
-        $owner = Auth::guard('owner')->user();
+            $owner = Auth::guard('owner')->user();
+            session(['owner' => $owner]); // opcional, mas mantido
 
-        return match ($owner->access_level) {
-            'inventory' => redirect()->route('inventory.dashboard'),
-            'sommelier' => redirect()->route('sommelier.dashboard'),
-            'attendant' => redirect()->route('attendant.dashboard'),
-            default => redirect('/'), // ou outra rota existente
-        };
+            $role = strtolower(trim($owner->function));
 
-    }
+            // Redirecionamento conforme função, fallback para '/'
+            switch ($role) {
+                case 'sommelier':
+                    return redirect()->route('sommelier.area'); 
+                case 'inventory':
+                    return redirect('/newstock');
+                case 'attendant':
+                    return redirect('/creating'); 
+                default:
+                    return redirect('/');
+            }
+        }
+
         return back()->withErrors([
-            'email' => 'Invalid Credentials to acess.',
+            'email' => 'Credenciais inválidas.',
         ]);
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
     }
+
 
     /**
      * Destroy an authenticated session.

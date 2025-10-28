@@ -20,11 +20,23 @@ use Illuminate\Auth\Middleware\Authenticate;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login')
+    ->middleware('guest:owner');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware('guest:owner');
+
+// Logout
+Route::post('/logout', function () {
+    Auth::guard('owner')->logout();
+    session()->invalidate();
+    session()->regenerateToken();
+    return redirect('/login');
+})->name('logout')->middleware('auth:owner');
 
 Route::middleware(['auth', 'can:inventory'])->group(function(){
     Route::get('/newstock', [InventoryController::class, 'newitem']);
@@ -37,6 +49,7 @@ Route::middleware(['auth', 'can:inventory'])->group(function(){
 //
 
 Route::middleware(['auth', 'can:sommelier'])->group(function(){
+    Route::get('/sommelier', [SommelierController::class, 'index'])->name('sommelier.area');
     Route::get('/creating', [SommelierController::class, 'oenophile']);
     Route::post('/newstock', [SommelierController::class, 'regulation']);
     Route::get('/newwine/{id}', [SommelierController::class, 'blend']);

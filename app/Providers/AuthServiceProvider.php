@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Owner;
 
 
 // use Illuminate\Support\Facades\Gate;
@@ -23,8 +24,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('inventory', fn($user) => $user->access_level === 'inventory');
-        Gate::define('sommelier', fn($user) => $user->access_level === 'sommelier');
-        Gate::define('attendant', fn($user) => $user->access_level === 'attendant');
+        Gate::define('inventory', fn(Owner $owner) => strtolower($owner->function) === 'inventory');
+        Gate::define('sommelier', fn(Owner $owner) => strtolower($owner->function) === 'sommelier');
+        Gate::define('attendant', fn(Owner $owner) => strtolower($owner->function) === 'attendant');
+
     }
 }

@@ -14,7 +14,7 @@ class SommelierController extends Controller
 
     public function oenophile()
     {
-        return view('SommelierArea.sommelier.blade.php');
+        return view('SommelierArea.sommelier');
     }
 
     public function regulation(Request $request)
@@ -39,7 +39,7 @@ class SommelierController extends Controller
 
     public function blend()
     {
-        return view('SommelierArea.maitre.blade.php');
+        return view('SommelierArea.maitre');
     }
 
     public function vintage(Request $request, int $id)
