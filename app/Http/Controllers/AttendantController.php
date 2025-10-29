@@ -15,7 +15,7 @@ class AttendantController extends Controller
 
     public function create()
     {
-        return view ('SellerArea.seller.blade.php');
+        return view ('SellerArea.seller');
     }
 
     public function store(Request $request)
@@ -43,7 +43,7 @@ class AttendantController extends Controller
 
     public function booking()
     {
-        return view('SellerArea.merchant.blade.php');
+        return view('SellerArea.merchant');
     }
 
     public function transaction (Request $request)
@@ -57,16 +57,15 @@ class AttendantController extends Controller
         'type_bottle' => $type_bottle
 
         ]);
-
-        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
-            return response()->json(['message'=> 'all fields are required.'], 401);
-        }
+        
+        return response()->json(['message'=> 'all fields are required.'], 401);
+        
     }
     //
 
     public function asks()
     {
-        return view('SellerArea.merchant.blade.php');
+        return view('SellerArea.merchant');
     }
 
     public function orders (Request $request, int $id)
@@ -86,15 +85,15 @@ class AttendantController extends Controller
 
         ]);
 
-        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
-            return response()->json(['message'=> 'all fields are required to update.'], 401);
-        }
+       
+        return response()->json(['message'=> 'all fields are required to update.'], 401);
+        
     }
     //
 
-    public function trash()
+    public function trash(int $id)
     {
-        return view('trash.blade.php');
+        return view('SellerArea.trash', ['id' => $id]);
     }
 
     public function exclusion(Request $request, int $id)
@@ -113,8 +112,9 @@ class AttendantController extends Controller
 
         ]);
 
-        if (empty ($amount) || empty ($price) || empty ($type_bottle)){
-            return response()->json(['message'=> 'all fields are required to delete.'], 401);
-        }
+        $sale->delete();
+
+        response()->json(['message'=> 'all fields are required to delete.'], 401);
+
     }
 }

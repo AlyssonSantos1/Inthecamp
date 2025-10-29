@@ -62,6 +62,9 @@ Route::middleware(['auth', 'can:attendant'])->group(function(){
     Route::post('/newstock', [AttendantController::class, 'store']);
     Route::get('/order/{id}', [AttendantController::class, 'booking']);
     Route::put('/changed/{id}', [AttendantController::class, 'transaction']);
+    Route::get('/creating/{id}', [AttendantController::class, 'trash']);
+    Route::post('/newstock/{id}', [AttendantController::class, 'exclusion'])->name('deleted');
+    
 });
     
 
