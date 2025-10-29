@@ -15,7 +15,7 @@ class InventoryController extends Controller
 
      public function newitem(Request $request)
     {
-        return view ('Wage.newbox.blade.php');
+        return view ('Wage.newbox');
     }
 
     public function store()
@@ -49,7 +49,7 @@ class InventoryController extends Controller
 
     public function deposit()
     {
-        return view('Wage.feature.blade.php');
+        return view('Wage.feature');
     }
     //
 
@@ -82,7 +82,7 @@ class InventoryController extends Controller
 
     public function garbage()
     {
-        return view('Wage.refuse.blade.php');
+        return view('Wage.refuse');
     }
     //
 

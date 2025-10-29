@@ -27,9 +27,9 @@ class RedirectIfAuthenticated
                     case 'sommelier':
                         return redirect()->route('sommelier.area');
                     case 'inventory':
-                        return redirect('/newstock');
+                        return redirect('/inventory.area');
                     case 'attendant':
-                        return redirect('/creating');
+                        return redirect('/attendant.area');
                     default:
                         return redirect('/');
                 }

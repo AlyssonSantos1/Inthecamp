@@ -39,6 +39,7 @@ Route::post('/logout', function () {
 })->name('logout')->middleware('auth:owner');
 
 Route::middleware(['auth', 'can:inventory'])->group(function(){
+    Route::get('/open', [InventoryController::class, 'index'])->name('inventory.area');
     Route::get('/newstock', [InventoryController::class, 'newitem']);
     Route::post('/newwine', [InventoryController::class, 'store'])->named('created');
     Route::get('/changing/{id}', [InventoryController::class, 'deposit']);
@@ -58,6 +59,7 @@ Route::middleware(['auth', 'can:sommelier'])->group(function(){
 //
 
 Route::middleware(['auth', 'can:attendant'])->group(function(){
+    Route::get('/door', [AttendantController::class, 'index'])->name('attendant.area');
     Route::get('/creating', [AttendantController::class, 'create']);
     Route::post('/newstock', [AttendantController::class, 'store']);
     Route::get('/order/{id}', [AttendantController::class, 'booking']);

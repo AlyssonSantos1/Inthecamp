@@ -50,7 +50,7 @@
   </style>
 </head>
 <body>
-  <h2>Área do Sommelier</h2>
+  <h2>Sommelier Area</h2>
 
   <div class="button-container">
     <a href="/sommelier" class="action-button create-btn">Criar Vinho</a>
