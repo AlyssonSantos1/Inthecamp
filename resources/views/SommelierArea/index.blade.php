@@ -41,7 +41,7 @@
     }
 
     .edit-btn {
-      background-color: #7c9c7c; /* verde oliva claro */
+      background-color: #7c9c7c; 
     }
 
     .edit-btn:hover {
@@ -52,9 +52,21 @@
 <body>
   <h2>Sommelier Area</h2>
 
-  <div class="button-container">
-    <a href="/sommelier" class="action-button create-btn">Criar Vinho</a>
-    <a href="/maitre" class="action-button edit-btn">Editar Vinho</a>
+@if(session('success'))
+  <div class="alert alert-success">
+    {{ session('success') }}
   </div>
+@endif
+
+<div class="button-container">
+  <a href="{{ route('sommelier.create') }}" class="action-button create-btn">
+    Create Wine
+  </a>
+
+  <a href="{{ url('/newwine/1') }}" class="action-button edit-btn">
+    Edit Wine
+  </a>
+</div>
+
 </body>
 </html>

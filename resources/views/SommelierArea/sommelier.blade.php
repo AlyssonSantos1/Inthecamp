@@ -67,7 +67,8 @@
   <h2>Create New Wine</h2>
 
   <div class="form-container">
-    <form method="POST" action="{{ route('wine.regulation') }}">
+   <form method="POST" action="{{ route('wine.newest') }}">
+
       @csrf
 
       <div class="form-group">

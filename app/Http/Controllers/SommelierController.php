@@ -37,35 +37,33 @@ class SommelierController extends Controller
 
     }
 
-    public function blend()
+    public function blend(int $id)
     {
-        return view('SommelierArea.maitre');
+        $wine = Wine::findOrFail($id);
+        return view('SommelierArea.maitre', compact('wine'));
     }
 
     public function vintage(Request $request, int $id)
     {
-        $User = auth()->user();
-        //requires to user on login is a sommelier worker
-        //if no returns to login menu
-        $Wine = Wine::find($id);
+        $wine = Wine::find($id);
 
-        if(!$Wine){
-            return response()->json(['Wine cannot updated,'],404);
+        if (!$wine) {
+            return response()->json(['message' => 'Wine cannot be updated.'], 404);
         }
 
-        Wine::update([
-            'type_grape' =>$type_grape,
-            'temperature' => $temperature
+        $request->validate([
+            'type_grape' => 'required|string|max:255',
+            'temperature' => 'required|string|max:255',
         ]);
 
-        if (empty ($type_grape) || empty ($temperature)){
-            return response()->json(['message'=> 'all fields are required.'], 401);
-        }
+        // Atualiza o registro específico
+        $wine->update([
+            'type_grape' => $request->type_grape,
+            'temperature' => $request->temperature,
+        ]);
 
-    
+        return redirect()->route('sommelier.area')->with('success', 'Wine updated successfully');
     }
-
-
 
 }
 

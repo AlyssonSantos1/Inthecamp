@@ -65,25 +65,32 @@
   </style>
 </head>
 <body>
-  <h2>Edit Wine</h2>
-
-  <div class="form-container">
-    <form method="POST" action="{{ route('wine.vintage', $wine->id) }}">
-      @csrf
-      @method('PUT')
-
-      <div class="form-group">
-        <label for="type_grape">Grape Type</label>
-        <input type="text" id="type_grape" name="type_grape" value="{{ $wine->type_grape }}" required>
-      </div>
-
-      <div class="form-group">
-        <label for="temperature">Serving Temperature</label>
-        <input type="text" id="temperature" name="temperature" value="{{ $wine->temperature }}" required>
-      </div>
-
-      <button type="submit" class="submit-btn">Update Wine</button>
-    </form>
+   @if(session('success'))
+  <div class="alert alert-success">
+      {{ session('success') }}
   </div>
+@endif
+
+<h2>Edit Wine</h2>
+
+<div class="form-container">
+    <form method="POST" action="{{ route('edited.wines', $wine->id) }}">
+        @csrf
+        @method('PUT')
+
+        <div class="form-group">
+            <label for="type_grape">Grape Type</label>
+            <input type="text" id="type_grape" name="type_grape" value="{{ $wine->type_grape }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="temperature">Serving Temperature</label>
+            <input type="text" id="temperature" name="temperature" value="{{ $wine->temperature }}" required>
+        </div>
+
+        <button type="submit" class="submit-btn">Update Wine</button>
+    </form>
+</div>
+
 </body>
 </html>
