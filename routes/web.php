@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Middleware\Authenticate;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
