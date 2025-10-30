@@ -63,9 +63,9 @@
     Create Wine
   </a>
 
-  <a href="{{ url('/newwine/1') }}" class="action-button edit-btn">
+  <a href="{{ route('wine.edit', ['id' => $wine->id]) }}" class="action-button edit-btn">
     Edit Wine
-  </a>
+</a>
 </div>
 
 </body>

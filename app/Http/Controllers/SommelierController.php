@@ -22,19 +22,14 @@ class SommelierController extends Controller
     {
         $User = auth()->user();
 
-        $validatedata = request()->validate([
-            'type_grape' => 'requested|string',
-            'temperature' => 'requested|string'
+        $validatedData = $request->validate([
+            'type_grape' => 'required|string',
+            'temperature' => 'required|string'
         ]);
 
-        Wine::Create([
-            'type_grape' =>$type_grape,
-            'temperature' => $temperature
-        ]);
+        Wine::create($validatedData);
 
-        Wine::create($validatedata);
-
-        return responde()->json(['message'=> 'the wine has been created']);
+        return response()->json(['message'=> 'the wine has been created']);
 
     }
 
