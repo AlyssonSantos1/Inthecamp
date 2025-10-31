@@ -22,7 +22,7 @@ class AttendantController extends Controller
     {
         $User = auth()->user();
 
-        $validatedata = request()->validate([
+        $validatedData = request()->validate([
             'amount' => 'required|string',
             'price' => 'required|string',
             'type_bottle' => 'required|string'
@@ -35,57 +35,67 @@ class AttendantController extends Controller
 
         ]);
 
-        Sale::create($validatedata);
+        Sale::create($validatedData);
 
         return responde()->json(['message'=> 'the ask has been created']);
 
     }
 
-    public function booking()
+    public function booking(int $id)
     {
-        return view('SellerArea.merchant');
+        $sale = Sale::find($id);
+        return view('SellerArea.merchant', compact('Sale'));
     }
 
     public function transaction (Request $request)
     {
-        $User = auth()->user();
+        $sale = Sale::find($id);
 
-        Sale::read([
+         $request->validate([
+            'amount' => 'required|string',
+            'price' => 'required|string',
+            'type_bottle' => 'required|string'
+        ]);
 
-        'amount' => $amount,
-        'price' => $price,
-        'type_bottle' => $type_bottle
+        $sale->read([
+            'amount' => $amount,
+            'price' => $price,
+            'type_bottle' => $type_bottle
 
         ]);
-        
-        return response()->json(['message'=> 'all fields are required.'], 401);
+
         
     }
     //
 
-    public function asks()
+    public function asks(int $id)
     {
-        return view('SellerArea.merchant');
+        $sale = Sale::find($id);
+        return view('SellerArea.merchant', compact('Sale'));
     }
 
     public function orders (Request $request, int $id)
     {
-        $User = auth()->user();
 
-        $Sale = Sale::find($id);
+        $sale = Sale::find($id);
 
         if(!$Sale){
             return response()->json(['ask not updated,'],404);
         }
 
-        Sale::update([
-        'amount' => $amount,
-        'price' => $price,
-        'type_bottle' => $type_bottle
+        $request->validate([
+            'amount' => 'required|string',
+            'price' => 'required|string',
+            'type_bottle' => 'required|string'
+        ]);
+
+        $sale->update([
+            'amount' => $amount,
+            'price' => $price,
+            'type_bottle' => $type_bottle
 
         ]);
 
-       
         return response()->json(['message'=> 'all fields are required to update.'], 401);
         
     }
@@ -93,22 +103,29 @@ class AttendantController extends Controller
 
     public function trash(int $id)
     {
-        return view('SellerArea.trash', ['id' => $id]);
+        $sale = Sale::find($id);
+        return view('SellerArea.trash', compact('sale'));
     }
 
     public function exclusion(Request $request, int $id)
     {
-        $User = auth()->user();
 
-        $Sale = Sale::find($id);
+        $sale = Sale::find($id);
 
-         if(!$Sale){
+         if(!$sale){
             return response()->json(['asks cannot be deleted!,'],404);
         }
-        Sale::delete([
-        'amount' => $amount,
-        'price' => $price,
-        'type_bottle' => $type_bottle
+        
+         $request->validate([
+            'amount' => 'required|string',
+            'price' => 'required|string',
+            'type_bottle' => 'required|string'
+        ]);
+
+        $sale->delete([
+            'amount' => $amount,
+            'price' => $price,
+            'type_bottle' => $type_bottle
 
         ]);
 

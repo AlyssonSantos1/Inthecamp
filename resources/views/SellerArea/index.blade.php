@@ -78,10 +78,15 @@
   <h2>Seller Area</h2>
 
   <div class="button-container">
-    <a href="/creating" class="action-button create-btn">Create Sale</a>
-    <a href="/order/1" class="action-button edit-btn">Edit Sale</a>
-    <a href="/creating/1" class="action-button delete-btn">Delete Sale</a>
-  </div>
+    <a href="{{ route('seller.creating') }}" class="action-button create-btn">
+    Create Sale
+    </a>
+    <a href="{{ route('order.ongoing', ['id' => $sale->id]) }}" class="action-button edit-btn">
+    Edit Sale
+    </a>
+    <a href="{{ route('sell.excluison', ['id' => $sale->id]) }}" class="action-button edit-btn">
+    Dele Sale
+    </a>
 
   <div style="margin-top:40px;">
     <form method="POST" action="{{ route('logout') }}">
