@@ -6,7 +6,7 @@
     <title>Order Management</title>
     <style>
         body {
-            background-color: #fef9f5; /* soft wine white tone */
+            background-color: #fef9f5;
             font-family: 'Segoe UI', sans-serif;
             display: flex;
             justify-content: center;
@@ -26,7 +26,7 @@
 
         h2 {
             text-align: center;
-            color: #7c4a59; /* rosé accent */
+            color: #7c4a59;
             margin-bottom: 25px;
         }
 
@@ -37,7 +37,7 @@
             color: #4e2a35;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             border-radius: 6px;
@@ -50,7 +50,7 @@
             width: 100%;
             padding: 14px;
             font-size: 16px;
-            background-color: #a36a7c; /* white wine with rosé hue */
+            background-color: #a36a7c;
             color: white;
             border: none;
             border-radius: 8px;
@@ -73,6 +73,7 @@
     <div class="form-container">
         <h2>Update Sale Order</h2>
 
+        {{-- Caso existam erros --}}
         @if ($errors->any())
             <div class="message">
                 <ul>
@@ -83,21 +84,55 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ url('/changed/' . ($sale->id ?? 1)) }}">
-            @csrf
-            @method('PUT')
+        {{-- Se existir $sale, mostra o formulário normal --}}
+        @if(isset($sale) && $sale)
+            <form method="POST" action="{{ url('/changed/' . $sale->id) }}">
+                @csrf
+                @method('PUT')
 
-            <label for="amount">Amount</label>
-            <input type="text" id="amount" name="amount" placeholder="Ex: 24" required>
+                <label for="amount">Amount</label>
+                <input type="text" id="amount" name="amount" value="{{ old('amount', $sale->amount ?? '') }}" placeholder="Ex: 24" required>
 
-            <label for="price">Price</label>
-            <input type="text" id="price" name="price" placeholder="Ex: 320.00" required>
+                <label for="price">Price</label>
+                <input type="text" id="price" name="price" value="{{ old('price', $sale->price ?? '') }}" placeholder="Ex: 320.00" required>
 
-            <label for="type_bottle">Bottle Type</label>
-            <input type="text" id="type_bottle" name="type_bottle" placeholder="Ex: Chardonnay" required>
+                <label for="type_bottle">Bottle Type</label>
+                <input type="text" id="type_bottle" name="type_bottle" value="{{ old('type_bottle', $sale->type_bottle ?? '') }}" placeholder="Ex: Chardonnay" required>
 
-            <button type="submit">Confirm Update</button>
-        </form>
+                <button type="submit">Confirm Update</button>
+            </form>
+
+        {{-- Caso $sale não exista, mostra o select para escolher qual editar --}}
+        @else
+            <form id="selectSaleForm">
+                <label for="saleSelector">Select a sale to edit</label>
+                <select id="saleSelector" required>
+                    <option value="">-- Choose a Sale --</option>
+                    @if(isset($sales) && $sales->count() > 0)
+                        @foreach($sales as $s)
+                            <option value="{{ $s->id }}">#{{ $s->id }} — {{ $s->type_bottle ?? 'Unknown' }}</option>
+                        @endforeach
+                    @else
+                        <option value="">No sales found</option>
+                    @endif
+                </select>
+
+                <button type="button" id="goEdit">Go to Edit</button>
+            </form>
+
+            <script>
+                document.getElementById('goEdit').addEventListener('click', function() {
+                    const select = document.getElementById('saleSelector');
+                    const id = select.value;
+                    if (id) {
+                        const url = "{{ route('order.ongoing', ['id' => ':id']) }}".replace(':id', id);
+                        window.location.href = url;
+                    } else {
+                        alert('Please select a sale first.');
+                    }
+                });
+            </script>
+        @endif
     </div>
 </body>
 </html>

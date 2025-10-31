@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+
 
 class AttendantController extends Controller
 {
@@ -28,26 +28,19 @@ class AttendantController extends Controller
             'type_bottle' => 'required|string'
         ]);
 
-        Sale::create([
-            'amount' => $amount,
-            'price' => $price,
-            'type_bottle' => $type_bottle
-
-        ]);
-
         Sale::create($validatedData);
 
-        return responde()->json(['message'=> 'the ask has been created']);
+        return response()->json(['message'=> 'the ask has been created']);
 
     }
 
     public function booking(int $id)
     {
         $sale = Sale::find($id);
-        return view('SellerArea.merchant', compact('Sale'));
+        return view('SellerArea.merchant', compact('sale'));
     }
 
-    public function transaction (Request $request)
+    public function transaction (Request $request, int $id)
     {
         $sale = Sale::find($id);
 
@@ -70,33 +63,23 @@ class AttendantController extends Controller
 
     public function asks(int $id)
     {
-        $sale = Sale::find($id);
-        return view('SellerArea.merchant', compact('Sale'));
+        $sale = Sale::findOrFail($id);
+        return view('SellerArea.merchant', compact('sale'));
     }
 
     public function orders (Request $request, int $id)
     {
+        $sale = Sale::findOrFail($id);
 
-        $sale = Sale::find($id);
-
-        if(!$Sale){
-            return response()->json(['ask not updated,'],404);
-        }
-
-        $request->validate([
+        $validatedData = $request->validate([
             'amount' => 'required|string',
             'price' => 'required|string',
             'type_bottle' => 'required|string'
         ]);
 
-        $sale->update([
-            'amount' => $amount,
-            'price' => $price,
-            'type_bottle' => $type_bottle
+        $sale->update($validatedData);        
 
-        ]);
-
-        return response()->json(['message'=> 'all fields are required to update.'], 401);
+        return response()->json(['message'=> 'the wine has been updated']);
         
     }
     //

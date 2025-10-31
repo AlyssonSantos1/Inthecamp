@@ -63,8 +63,8 @@ Route::middleware(['auth', 'can:attendant'])->group(function(){
     Route::get('/door', [AttendantController::class, 'index'])->name('attendant.area');
     Route::get('/creating', [AttendantController::class, 'create'])->name('seller.creating');
     Route::post('/newstock', [AttendantController::class, 'store'])->name('sell.create');
-    Route::get('/order/{id}', [AttendantController::class, 'booking'])->name('order.ongoing');
-    Route::put('/changed/{id}', [AttendantController::class, 'transaction'])->name('order.doneit');
+    Route::get('/order/{id}', [AttendantController::class, 'asks'])->name('order.ongoing');
+    Route::put('/changed/{id}', [AttendantController::class, 'orders'])->name('order.doneit');
     Route::get('/creating/{id}', [AttendantController::class, 'trash'])->name('sell.excluison');
     Route::post('/newstock/{id}', [AttendantController::class, 'exclusion'])->name('deleted');
     

@@ -36,9 +36,9 @@ class AuthenticatedSessionController extends Controller
                 case 'sommelier':
                     return redirect()->route('sommelier.area'); 
                 case 'inventory':
-                    return redirect('/newstock');
+                    return redirect()->route('inventory.area');
                 case 'attendant':
-                    return redirect('/creating'); 
+                    return redirect()->route('attendant.area');
                 default:
                     return redirect('/');
             }
