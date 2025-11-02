@@ -5,43 +5,60 @@
   <title>Wine Registration</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       background-color: #f2f2f2;
-      padding: 20px;
+      font-family: Arial, sans-serif;
     }
 
     .form-container {
-      background-color: #fff;
-      padding: 25px;
+      width: 400px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 30px;
       border-radius: 8px;
-      max-width: 500px;
-      margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
+    h2 {
+      text-align: center;
+      color: #333333;
+    }
+
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       font-weight: bold;
+      color: #444444;
     }
 
-    input, select {
+    input[type="text"],
+    input[type="number"] {
       width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #fff8cc;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      background-color: #e0f0ff;
+      border: 1px solid #cccccc;
       border-radius: 4px;
     }
 
     button {
+      width: 100%;
+      padding: 12px;
       background-color: #4CAF50;
       color: white;
-      padding: 10px 15px;
       border: none;
       border-radius: 4px;
+      font-size: 16px;
       cursor: pointer;
     }
 
@@ -53,7 +70,10 @@
 <body>
   <div class="form-container">
     <h2>Wine Registration</h2>
-    <form>
+
+    <form method="POST" action="{{ url('/newwine') }}">
+      @csrf
+
       <div class="form-group">
         <label for="supply">Supply</label>
         <input type="text" id="supply" name="supply" required>
@@ -94,5 +114,4 @@
     </form>
   </div>
 </body>
-
 </html>

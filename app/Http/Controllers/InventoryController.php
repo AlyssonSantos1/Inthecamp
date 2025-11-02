@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Ware;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -20,9 +20,7 @@ class InventoryController extends Controller
 
     public function store()
     {
-        $User = auth()->user();
-        //if $user =  Sale as a model to indicates 
-        //continue.
+        $user = auth()->user();
 
         $validatedata = request()->validate([
             'supply' => 'required|string',
@@ -32,23 +30,16 @@ class InventoryController extends Controller
             'wine_type' => 'required|string'
         ]);
 
-        Ware::Create([
-            'supply' => $supply,
-            'bottle' => $bottle,
-            'age' =>$age,
-            'temperature' => $temperature,
-            'wine_type' => $wine_type
 
-        ]);
-
-        Ware::create($validatedata);
+        Stock::create($validatedata);
 
         return response()->json(['message'=> 'the wine has been created'], 201);
 
     }
 
-    public function deposit()
+    public function deposit(int $id)
     {
+        $stock = Stock::find($id);
         return view('Wage.feature');
     }
     //
@@ -56,57 +47,47 @@ class InventoryController extends Controller
     public function max(Request $request, int $id)
     {
         $User = auth()->user();
-        //if $user =  Sale as a model to indicates 
-        //continue.
-        $Ware = Ware::find($id);
 
-        if(!$Ware){
+        $stock = Stock::find($id);
+
+        if(!$ware){
             return response()->json(['register not found'],404);
         }
-
-        Ware::update([
-            'supply' => $supply,
-            'bottle' => $bottle,
-            'age' =>$age,
-            'temperature' => $temperature,
-            'wine_type' => $wine_type
-
+        
+        $validatedData = request()->validate([
+            'supply' => 'required|string',
+            'bottle' => 'required|string',
+            'age' => 'required|string',
+            'price'  => 'required|string',
+            'temperature' => 'required|string',
+            'wine_type' => 'required|string'
         ]);
 
-        if (empty ($supply) || empty ($bottle) || empty ($age)
-            || empty ($temperature)|| empty ($wine_type)){
-            return response()->json(['message'=> 'all fields are required to update.'], 401);
-        }
+        $ware->update($validatedData);
 
+        return response()->json(['message'=> 'the wine has been updated'], 201);
     }
 
-    public function garbage()
+    public function garbage(int $id)
     {
+        $stock = Stock::findOrFail($id);
         return view('Wage.refuse');
     }
     //
 
     public function scrap(Request $request, int $id)
     {
-        $User = auth()->user();
-        //if $user =  Sale as a model to indicates 
-        //continue.
+        $user = auth()->user();
+    
+        $stock = Stock::findOrFail($id);
 
-        $Ware = Ware::find($id);
-
-        if(!$Ware){
+        if(!$ware){
             return response()->json(['register not found'],404);
         }
 
-       $ware = delete();
+        $stock = delete();
 
         return responde()->json(['the wine of register has been deleted'],404);
-        
-
-        if (empty ($supply) || empty ($bottle) || empty ($age)
-            || empty ($temperature)|| empty ($wine_type)){
-            return response()->json(['message'=> 'all fields are required to delete.'], 401);
-        }
 
     }
 }
