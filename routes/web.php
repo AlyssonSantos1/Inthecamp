@@ -31,6 +31,8 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest:owner');
 
+    
+
 // Logout
 Route::post('/logout', function () {
     Auth::guard('owner')->logout();
@@ -42,9 +44,9 @@ Route::post('/logout', function () {
 Route::middleware(['auth', 'can:inventory'])->group(function(){
     Route::get('/open', [InventoryController::class, 'index'])->name('inventory.area');
     Route::get('/newstock', [InventoryController::class, 'newitem']);
-    Route::post('/newwine', [InventoryController::class, 'store'])->named('created');
-    Route::get('/changing/{id}', [InventoryController::class, 'deposit']);
-    Route::put('/changed/{id}', [InventoryController::class, 'max']);
+    Route::post('/newwine', [InventoryController::class, 'store'])->name('created');
+    Route::get('/changing', [InventoryController::class, 'deposit']);
+    Route::post('/changed/{id}', [InventoryController::class, 'max']);
     Route::get('/exclusion/{id}', [InventoryController::class, 'garbage']);
     Route::post('/delete/{id}', [InventoryController::class, 'scrap'])->named('deleted');
 });
@@ -70,5 +72,14 @@ Route::middleware(['auth', 'can:attendant'])->group(function(){
     
 });
     
+
+Route::get('/test-gate', function () {
+    $user = auth()->user();
+    if (!$user) {
+        return 'No user logged in!';
+    }
+
+    return $user->can('inventory') ? 'Has permission' : 'Forbidden';
+})->middleware('auth');
 
 require __DIR__.'/auth.php';

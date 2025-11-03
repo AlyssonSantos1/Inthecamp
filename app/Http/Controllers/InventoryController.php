@@ -38,7 +38,7 @@ class InventoryController extends Controller
 
     }
 
-    public function deposit(int $id)
+    public function deposit()
     {
         $stock = Stock::all();
         return view('Wage.feature', compact('stock'));
