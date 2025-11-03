@@ -44,9 +44,9 @@ Route::middleware(['auth', 'can:inventory'])->group(function(){
     Route::get('/newstock', [InventoryController::class, 'newitem']);
     Route::post('/newwine', [InventoryController::class, 'store'])->named('created');
     Route::get('/changing/{id}', [InventoryController::class, 'deposit']);
-    Route::put('/changed/{id}', [InventoryController::class, 'max'])->named('changed');
-    Route::get('/changing/{id}', [InventoryController::class, 'garbage']);
-    Route::post('/changed/{id}', [InventoryController::class, 'scrap'])->named('deleted');
+    Route::put('/changed/{id}', [InventoryController::class, 'max']);
+    Route::get('/exclusion/{id}', [InventoryController::class, 'garbage']);
+    Route::post('/delete/{id}', [InventoryController::class, 'scrap'])->named('deleted');
 });
 //
 

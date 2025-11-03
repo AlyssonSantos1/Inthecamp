@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class AttendantController extends Controller
 {
+
+
     public function index()
     {
         return view('SellerArea.index');
@@ -15,12 +17,12 @@ class AttendantController extends Controller
 
     public function create()
     {
-        return view ('SellerArea.seller');
+        return view ('SellerArea.seller', compact('sale'));
     }
 
     public function store(Request $request)
     {
-        $User = auth()->user();
+        $user = auth()->user();
 
         $validatedData = request()->validate([
             'amount' => 'required|string',
@@ -42,20 +44,17 @@ class AttendantController extends Controller
 
     public function transaction (Request $request, int $id)
     {
+        $user = auth()->user();
+
         $sale = Sale::find($id);
 
-         $request->validate([
+         $request->validatedData([
             'amount' => 'required|string',
             'price' => 'required|string',
             'type_bottle' => 'required|string'
         ]);
 
-        $sale->read([
-            'amount' => $amount,
-            'price' => $price,
-            'type_bottle' => $type_bottle
-
-        ]);
+        $sale->read($validatedData);
 
         
     }
@@ -69,6 +68,8 @@ class AttendantController extends Controller
 
     public function orders (Request $request, int $id)
     {
+        $user = auth()->user();
+
         $sale = Sale::findOrFail($id);
 
         $validatedData = $request->validate([
@@ -92,6 +93,7 @@ class AttendantController extends Controller
 
     public function exclusion(Request $request, int $id)
     {
+        $user = auth()->user();
 
         $sale = Sale::find($id);
 
@@ -105,14 +107,8 @@ class AttendantController extends Controller
             'type_bottle' => 'required|string'
         ]);
 
-        $sale->delete([
-            'amount' => $amount,
-            'price' => $price,
-            'type_bottle' => $type_bottle
-
-        ]);
-
-        $sale->delete();
+  
+        $sale->delete($validatedData);
 
         response()->json(['message'=> 'all fields are required to delete.'], 401);
 

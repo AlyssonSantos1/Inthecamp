@@ -22,16 +22,17 @@ class InventoryController extends Controller
     {
         $user = auth()->user();
 
-        $validatedata = request()->validate([
+        $validatedData = request()->validate([
             'supply' => 'required|string',
             'bottle' => 'required|string',
             'age' => 'required|string',
+            'price'  => 'required|string',
             'temperature' => 'required|string',
             'wine_type' => 'required|string'
         ]);
 
 
-        Stock::create($validatedata);
+        Stock::create($validatedData);
 
         return response()->json(['message'=> 'the wine has been created'], 201);
 
@@ -39,18 +40,18 @@ class InventoryController extends Controller
 
     public function deposit(int $id)
     {
-        $stock = Stock::find($id);
-        return view('Wage.feature');
+        $stock = Stock::all();
+        return view('Wage.feature', compact('stock'));
     }
     //
 
     public function max(Request $request, int $id)
     {
-        $User = auth()->user();
+        $user = auth()->user();
 
         $stock = Stock::find($id);
 
-        if(!$ware){
+        if(!$stock){
             return response()->json(['register not found'],404);
         }
         
@@ -63,7 +64,7 @@ class InventoryController extends Controller
             'wine_type' => 'required|string'
         ]);
 
-        $ware->update($validatedData);
+        $stock->update($validatedData);
 
         return response()->json(['message'=> 'the wine has been updated'], 201);
     }
@@ -71,7 +72,7 @@ class InventoryController extends Controller
     public function garbage(int $id)
     {
         $stock = Stock::findOrFail($id);
-        return view('Wage.refuse');
+        return view('Wage.refuse', compact('stock'));
     }
     //
 
@@ -81,7 +82,7 @@ class InventoryController extends Controller
     
         $stock = Stock::findOrFail($id);
 
-        if(!$ware){
+        if(!$stock){
             return response()->json(['register not found'],404);
         }
 

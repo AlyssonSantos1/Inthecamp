@@ -20,7 +20,7 @@ class SommelierController extends Controller
 
     public function regulation(Request $request)
     {
-        $User = auth()->user();
+        $user = auth()->user();
 
         $validatedData = $request->validate([
             'type_grape' => 'required|string',
@@ -41,22 +41,20 @@ class SommelierController extends Controller
 
     public function vintage(Request $request, int $id)
     {
+        $user = auth()->user();
+
         $wine = Wine::find($id);
 
         if (!$wine) {
             return response()->json(['message' => 'Wine cannot be updated.'], 404);
         }
 
-        $request->validate([
+        $request->validatedData([
             'type_grape' => 'required|string|max:255',
             'temperature' => 'required|string|max:255',
         ]);
 
-        // Atualiza o registro específico
-        $wine->update([
-            'type_grape' => $request->type_grape,
-            'temperature' => $request->temperature,
-        ]);
+        $wine->update($validatedData);
 
         return redirect()->route('sommelier.area')->with('success', 'Wine updated successfully');
     }
