@@ -56,8 +56,8 @@ Route::middleware(['auth', 'can:sommelier'])->group(function(){
     Route::get('/sommelier', [SommelierController::class, 'index'])->name('sommelier.area');
     Route::get('/newliquor', [SommelierController::class, 'oenophile'])->name('sommelier.create');
     Route::post('/donedeal', [SommelierController::class, 'regulation'])->name('wine.newest');
-    Route::get('/newwine/{id}', [SommelierController::class, 'blend'])->name('wine.edit');
-    Route::put('/changinge/{id}', [SommelierController::class, 'vintage'])->name('edited.wines');
+    Route::get('/newwine', [SommelierController::class, 'blend'])->name('wine.edit');
+    Route::post('/changinge/{id}', [SommelierController::class, 'vintage'])->name('edited.wines');
 });
 //
 

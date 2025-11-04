@@ -1,96 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Edit Wine</title>
   <style>
     body {
-      background-color: #f9f4f6; /* rosé champanhe claro */
-      font-family: 'Segoe UI', sans-serif;
-      padding: 60px;
-      color: #4b2e2e; /* vinho escuro */
-    }
-
-    h2 {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
       text-align: center;
-      margin-bottom: 40px;
-      color: #7b3e57; /* tom de uva madura */
+      margin-top: 40px;
     }
 
     .form-container {
-      max-width: 500px;
+      background-color: #fff;
+      width: 400px;
       margin: 0 auto;
-      background-color: #fff7fb; /* lavanda muito clara */
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(120, 60, 80, 0.1); /* sombra vinho suave */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       text-align: left;
     }
 
     label {
-      display: block;
-      margin-bottom: 8px;
       font-weight: bold;
-      color: #5a2d3c; /* vinho escuro */
     }
 
-    input[type="text"],
-    input[type="number"] {
+    select, input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #d8cfcf;
-      border-radius: 6px;
-      background-color: #fefefe;
+      padding: 8px;
+      margin-top: 5px;
     }
 
     .submit-btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      background-color: #a86c94; /* lavanda uva */
+      background-color: #007bff;
       color: white;
       border: none;
+      padding: 10px 20px;
       border-radius: 6px;
-      font-size: 16px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      margin-top: 10px;
     }
 
     .submit-btn:hover {
-      background-color: #8c4f7a;
+      opacity: 0.9;
+    }
+
+    .logout-btn {
+      display: inline-block;
+      background-color: #dc3545;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 25px;
+    }
+
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
+
+    .alert-success {
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      width: 300px;
+      margin: 10px auto;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
-   @if(session('success'))
-  <div class="alert alert-success">
-      {{ session('success') }}
-  </div>
-@endif
+  @if(session('success'))
+    <div class="alert-success">
+        {{ session('success') }}
+    </div>
+  @endif
 
-<h2>Edit Wine</h2>
+  <h2>Edit Wine</h2>
 
-<div class="form-container">
-    <form method="POST" action="{{ route('edited.wines', $wine->id) }}">
-        @csrf
-        @method('PUT')
+  <div class="form-container">
+    <form id="editForm" method="POST" action="">
+      @csrf
+      <!-- A action será definida via JS conforme o vinho selecionado -->
 
-        <div class="form-group">
-            <label for="type_grape">Grape Type</label>
-            <input type="text" id="type_grape" name="type_grape" value="{{ $wine->type_grape }}" required>
-        </div>
+      <div class="form-group">
+        <label for="wine_id">Select Wine</label>
+        <select id="wine_id" name="wine_id" required>
+          <option value="">Select a Wine</option>
+          @foreach($wine as $w)
+            <option value="{{ $w->id }}"
+              data-type_grape="{{ $w->type_grape }}"
+              data-temperature="{{ $w->temperature }}">
+              {{ $w->type_grape }} ({{ $w->temperature }})
+            </option>
+          @endforeach
+        </select>
+      </div>
 
-        <div class="form-group">
-            <label for="temperature">Serving Temperature</label>
-            <input type="text" id="temperature" name="temperature" value="{{ $wine->temperature }}" required>
-        </div>
+      <div class="form-group">
+        <label for="type_grape">Grape Type</label>
+        <input type="text" id="type_grape" name="type_grape" required>
+      </div>
 
-        <button type="submit" class="submit-btn">Update Wine</button>
+      <div class="form-group">
+        <label for="temperature">Serving Temperature</label>
+        <input type="text" id="temperature" name="temperature" required>
+      </div>
+
+      <button type="submit" class="submit-btn">Update Wine</button>
     </form>
-</div>
+  </div>
 
+  <!-- Botão de Logout -->
+  <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+
+  <script>
+    const selectWine = document.getElementById('wine_id');
+    const typeInput = document.getElementById('type_grape');
+    const tempInput = document.getElementById('temperature');
+    const form = document.getElementById('editForm');
+
+    selectWine.addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+
+      if (this.value) {
+        typeInput.value = selectedOption.getAttribute('data-type_grape');
+        tempInput.value = selectedOption.getAttribute('data-temperature');
+
+        // Atualiza a action do form com o ID escolhido
+        form.action = `/changinge/${this.value}`;
+      } else {
+        typeInput.value = '';
+        tempInput.value = '';
+        form.action = '';
+      }
+    });
+  </script>
 </body>
 </html>

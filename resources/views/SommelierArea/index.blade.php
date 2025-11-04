@@ -1,72 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Sommelier Actions</title>
+  <meta charset="UTF-8">
+  <title>Sommelier Area</title>
   <style>
     body {
-      background-color: #fdf6f9; /* tom rosé bem claro */
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
       text-align: center;
-      padding-top: 80px;
+      margin-top: 60px;
     }
-
-    h2 {
-      margin-bottom: 40px;
-      color: #5c2a3e; /* vinho suave */
-    }
-
-    .button-container {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-    }
-
     .action-button {
-      padding: 15px 30px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      color: white;
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 10px;
+      border-radius: 8px;
+      color: #fff;
       text-decoration: none;
-      transition: background-color 0.3s ease;
+      font-weight: bold;
+      transition: 0.2s;
     }
-
+    .action-button:hover {
+      opacity: 0.9;
+    }
     .create-btn {
-      background-color: #a95c7b; /* tom uva rosada */
+      background-color: #28a745;
     }
-
-    .create-btn:hover {
-      background-color: #8c3f61;
-    }
-
     .edit-btn {
-      background-color: #7c9c7c; 
+      background-color: #007bff;
     }
-
-    .edit-btn:hover {
-      background-color: #5f7f5f;
+    .alert-success {
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      margin-bottom: 20px;
+      width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
   <h2>Sommelier Area</h2>
 
-@if(session('success'))
-  <div class="alert alert-success">
-    {{ session('success') }}
+  @if(session('success'))
+    <div class="alert-success">
+      {{ session('success') }}
+    </div>
+  @endif
+
+  <div class="button-container">
+    <!-- Botão para criar novo vinho -->
+    <a href="{{ route('sommelier.create') }}" class="action-button create-btn">
+      Create Wine
+    </a>
+
+    <!-- Botão para editar vinhos (vai para a tela de edição com select) -->
+    <a href="{{ route('wine.edit') }}" class="action-button edit-btn">
+      Edit Wine
+    </a>
   </div>
-@endif
-
-<div class="button-container">
-  <a href="{{ route('sommelier.create') }}" class="action-button create-btn">
-    Create Wine
-  </a>
-
-  <a href="{{ route('wine.edit', ['id' => $wine->id]) }}" class="action-button edit-btn">
-    Edit Wine
-</a>
-</div>
-
 </body>
 </html>

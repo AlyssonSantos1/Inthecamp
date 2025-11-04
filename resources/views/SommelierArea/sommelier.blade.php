@@ -8,6 +8,7 @@
       font-family: 'Segoe UI', sans-serif;
       padding: 60px;
       color: #4b2e2e;
+      text-align: center;
     }
 
     h2 {
@@ -23,11 +24,11 @@
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(120, 60, 80, 0.1);
+      text-align: left;
     }
 
     .form-group {
       margin-bottom: 20px;
-      text-align: left;
     }
 
     label {
@@ -61,14 +62,31 @@
     .submit-btn:hover {
       background-color: #8c4f7a;
     }
+
+    .logout-btn {
+      display: inline-block;
+      margin-top: 25px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
   <h2>Create New Wine</h2>
 
   <div class="form-container">
-   <form method="POST" action="{{ route('wine.newest') }}">
-
+    <form method="POST" action="{{ route('wine.newest') }}">
       @csrf
 
       <div class="form-group">
@@ -82,6 +100,12 @@
       </div>
 
       <button type="submit" class="submit-btn">Save Wine</button>
+    </form>
+
+    <!-- Botão de Logout -->
+    <form method="POST" action="{{ route('logout') }}">
+      @csrf
+      <button type="submit" class="logout-btn">Logout</button>
     </form>
   </div>
 </body>

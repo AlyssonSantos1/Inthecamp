@@ -22,7 +22,7 @@ class SommelierController extends Controller
     {
         $user = auth()->user();
 
-        $validatedData = $request->validate([
+        $validatedData = request()->validate([
             'type_grape' => 'required|string',
             'temperature' => 'required|string'
         ]);
@@ -33,9 +33,9 @@ class SommelierController extends Controller
 
     }
 
-    public function blend(int $id)
+    public function blend()
     {
-        $wine = Wine::findOrFail($id);
+        $wine = Wine::all();
         return view('SommelierArea.maitre', compact('wine'));
     }
 
@@ -49,7 +49,7 @@ class SommelierController extends Controller
             return response()->json(['message' => 'Wine cannot be updated.'], 404);
         }
 
-        $request->validatedData([
+        $validatedData = request()->validate([
             'type_grape' => 'required|string|max:255',
             'temperature' => 'required|string|max:255',
         ]);
