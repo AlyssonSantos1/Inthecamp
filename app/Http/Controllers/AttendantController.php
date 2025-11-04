@@ -17,7 +17,7 @@ class AttendantController extends Controller
 
     public function create()
     {
-        return view ('SellerArea.seller', compact('sale'));
+        return view ('SellerArea.seller');
     }
 
     public function store(Request $request)
@@ -36,9 +36,9 @@ class AttendantController extends Controller
 
     }
 
-    public function booking(int $id)
+    public function booking()
     {
-        $sale = Sale::find($id);
+        $sale = Sale::all;
         return view('SellerArea.merchant', compact('sale'));
     }
 
@@ -55,6 +55,8 @@ class AttendantController extends Controller
         ]);
 
         $sale->read($validatedData);
+
+        return response()->json(['message'=> 'the ask has been updated']);
 
         
     }
@@ -85,32 +87,25 @@ class AttendantController extends Controller
     }
     //
 
-    public function trash(int $id)
+    public function trash()
     {
-        $sale = Sale::find($id);
-        return view('SellerArea.trash', compact('sale'));
+        $sales = Sale::all();
+        return view('SellerArea.trash', compact('sales'));
     }
 
     public function exclusion(Request $request, int $id)
     {
         $user = auth()->user();
 
-        $sale = Sale::find($id);
+        $sales = Sale::find($id);
 
-         if(!$sale){
+         if(!$sales){
             return response()->json(['asks cannot be deleted!,'],404);
         }
-        
-         $request->validate([
-            'amount' => 'required|string',
-            'price' => 'required|string',
-            'type_bottle' => 'required|string'
-        ]);
-
   
-        $sale->delete($validatedData);
+        $sales->delete();
 
-        response()->json(['message'=> 'all fields are required to delete.'], 401);
+        return response()->json(['message'=> 'the ask has been deleted ']);
 
     }
 }

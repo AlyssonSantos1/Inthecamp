@@ -102,7 +102,6 @@
       <button type="submit" class="submit-btn">Save Wine</button>
     </form>
 
-    <!-- Botão de Logout -->
     <form method="POST" action="{{ route('logout') }}">
       @csrf
       <button type="submit" class="logout-btn">Logout</button>

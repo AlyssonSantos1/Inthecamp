@@ -69,9 +69,9 @@ class InventoryController extends Controller
         return response()->json(['message'=> 'the wine has been updated'], 201);
     }
 
-    public function garbage(int $id)
+    public function garbage()
     {
-        $stock = Stock::findOrFail($id);
+        $stock = Stock::all();
         return view('Wage.refuse', compact('stock'));
     }
     //
@@ -88,7 +88,7 @@ class InventoryController extends Controller
 
         $stock = delete();
 
-        return responde()->json(['the wine of register has been deleted'],404);
+        return responde()->json(['the wine of register has been deleted']);
 
     }
 }

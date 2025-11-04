@@ -1,13 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Wine Record</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f4f5f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            width: 400px;
+            background: #ffffff;
+            margin: 60px auto;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fafafa;
+            transition: border 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            border-color: #6c63ff;
+            outline: none;
+            background: #fff;
+        }
+
+        button, .logout-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover, .logout-btn:hover {
+            background: #5a52e0;
+        }
+
+        .logout-btn {
+            margin-top: 15px;
+            background: #e74c3c;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .success-message {
+            background: #e7f8ec;
+            color: #278a4c;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: 40px;
+        }
+    </style>
+</head>
 <body>
+
   <div class="form-container">
     <h2>Edit Wine Record</h2>
 
-    {{-- Mensagem de sucesso --}}
+    {{-- Success message --}}
     @if(session('success'))
         <div class="success-message">{{ session('success') }}</div>
     @endif
 
-    {{-- Select para escolher o vinho --}}
+    {{-- Select for wine --}}
     <div class="form-group">
         <label for="stock_select">Select Wine to Edit</label>
         <select id="stock_select" onchange="loadStockData()">
@@ -27,7 +128,7 @@
         </select>
     </div>
 
-    {{-- Formulário --}}
+    {{-- Form --}}
     <form id="editForm" method="POST" action="">
         @csrf
 
@@ -69,16 +170,26 @@
             </select>
         </div>
 
-        <button type="submit">Update</button>
+        <button type="submit">Update Wine</button>
+    </form>
+
+    {{-- Logout --}}
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="logout-btn">Logout</button>
     </form>
   </div>
+
+  <footer>
+    &copy; {{ date('Y') }} Inventory Management — White Wine Edition 🍷
+  </footer>
 
   <script>
     function loadStockData() {
         const select = document.getElementById('stock_select');
         const option = select.options[select.selectedIndex];
 
-        if (!option.value) return; // evita action vazia
+        if (!option.value) return; // evita erro se nada selecionado
 
         document.getElementById('stock_id').value = option.value;
         document.getElementById('supply').value = option.dataset.supply;
@@ -88,20 +199,8 @@
         document.getElementById('temperature').value = option.dataset.temperature;
         document.getElementById('wine_type').value = option.dataset.wine_type;
 
-        // Define a action do form dinamicamente com o ID do item
-        document.getElementById('editForm').action = '/Inthecamp/public/changed/' + option.value;
+        document.getElementById('editForm').action = "{{ url('/changed') }}/" + option.value;
     }
   </script>
-
-  <style>
-    body { background-color: #f2f2f2; font-family: Arial, sans-serif; }
-    .form-container { width: 400px; margin: 40px auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h2 { text-align: center; margin-bottom: 20px; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; color: #444; }
-    input, select { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; }
-    button { width: 100%; padding: 12px; background-color: #d9534f; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
-    button:hover { background-color: #c9302c; }
-    .success-message { background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; }
-  </style>
 </body>
+</html>

@@ -52,12 +52,10 @@
   @endif
 
   <div class="button-container">
-    <!-- Botão para criar novo vinho -->
     <a href="{{ route('sommelier.create') }}" class="action-button create-btn">
       Create Wine
     </a>
 
-    <!-- Botão para editar vinhos (vai para a tela de edição com select) -->
     <a href="{{ route('wine.edit') }}" class="action-button edit-btn">
       Edit Wine
     </a>

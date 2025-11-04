@@ -47,8 +47,8 @@ Route::middleware(['auth', 'can:inventory'])->group(function(){
     Route::post('/newwine', [InventoryController::class, 'store'])->name('created');
     Route::get('/changing', [InventoryController::class, 'deposit']);
     Route::post('/changed/{id}', [InventoryController::class, 'max']);
-    Route::get('/exclusion/{id}', [InventoryController::class, 'garbage']);
-    Route::post('/delete/{id}', [InventoryController::class, 'scrap'])->named('deleted');
+    Route::get('/exclusion', [InventoryController::class, 'garbage'])->name('inventory.exclusion');;
+    Route::delete('/delete/{id}', [InventoryController::class, 'scrap'])->name('deleted');
 });
 //
 
@@ -65,10 +65,10 @@ Route::middleware(['auth', 'can:attendant'])->group(function(){
     Route::get('/door', [AttendantController::class, 'index'])->name('attendant.area');
     Route::get('/creating', [AttendantController::class, 'create'])->name('seller.creating');
     Route::post('/newstock', [AttendantController::class, 'store'])->name('sell.create');
-    Route::get('/order/{id}', [AttendantController::class, 'asks'])->name('order.ongoing');
+    Route::get('/order', [AttendantController::class, 'asks'])->name('order.ongoing');
     Route::put('/changed/{id}', [AttendantController::class, 'orders'])->name('order.doneit');
-    Route::get('/creating/{id}', [AttendantController::class, 'trash'])->name('sell.excluison');
-    Route::post('/newstock/{id}', [AttendantController::class, 'exclusion'])->name('deleted');
+    Route::get('/looking', [AttendantController::class, 'trash'])->name('sell.excluison');
+    Route::delete('/deleteask/{id}', [AttendantController::class, 'exclusion'])->name('deleted');
     
 });
     

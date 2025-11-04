@@ -1,110 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Inventory Exclusion</title>
   <style>
     body {
-      background-color: #f2f2f2;
-      font-family: Arial, sans-serif;
-    }
-
-    .form-container {
-      width: 400px;
-      margin: 40px auto;
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: #f9f4f6;
+      font-family: 'Segoe UI', sans-serif;
+      color: #4b2e2e;
+      padding: 40px;
+      text-align: center;
     }
 
     h2 {
-      text-align: center;
-      color: #333333;
+      color: #7b3e57;
+      margin-bottom: 40px;
     }
 
-    .form-group {
-      margin-bottom: 20px;
+    .list {
+      max-width: 700px;
+      margin: 0 auto;
     }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: #444444;
+    .item {
+      background: #fff7fb;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    input[type="text"],
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      background-color: #fff8cc; /* light yellow for editable fields */
-      border: 1px solid #cccccc;
-      border-radius: 4px;
-    }
-
-    select {
-      width: 100%;
-      padding: 10px;
-      background-color: #e0f0ff; /* light blue for dropdown */
-      border: 1px solid #cccccc;
-      border-radius: 4px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #4CAF50;
-      color: white;
+    .btn {
+      padding: 8px 14px;
       border: none;
-      border-radius: 4px;
-      font-size: 16px;
+      border-radius: 6px;
       cursor: pointer;
+      color: #fff;
+      font-weight: bold;
     }
 
-    button:hover {
-      background-color: #45a049;
+    .btn-danger {
+      background-color: #c44b4b;
+    }
+
+    .btn-danger:hover {
+      background-color: #a63a3a;
+    }
+
+    .logout {
+      background-color: #555;
+      margin-top: 30px;
+    }
+
+    .logout:hover {
+      background-color: #333;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #7a6464;
     }
   </style>
 </head>
-
 <body>
-  <div class="form-container">
-    <h2>Wine Registration</h2>
-    <form>
-      <div class="form-group">
-        <label for="supply">Supply</label>
-        <input type="text" id="supply" name="supply" required>
-      </div>
 
-      <div class="form-group">
-        <label for="bottle">Bottle Label</label>
-        <input type="text" id="bottle" name="bottle" required>
-      </div>
+  <h2>Delete Wine from Inventory</h2>
 
-      <div class="form-group">
-        <label for="age">Age</label>
-        <input type="text" id="age" name="age" required>
-      </div>
+  <div class="list">
+    @if($stock->isEmpty())
+      <p>No wines registered in inventory.</p>
+    @else
+      @foreach($stock as $item)
+        <div class="item">
+          <div>
+            <strong>#{{ $item->id }}</strong> — {{ $item->bottle ?? 'Unknown Label' }}  
+            &middot; Type: {{ ucfirst($item->wine_type) }}  
+            &middot; Price: {{ $item->price }}
+          </div>
 
-      <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price" required>
-      </div>
-
-      <div class="form-group">
-        <label for="temperature">Temperature</label>
-        <input type="text" id="temperature" name="temperature" required>
-      </div>
-
-      <div class="form-group">
-        <label for="wine_type">Wine Type</label>
-        <select id="wine_type" name="wine_type" required>
-          <option value="">Select</option>
-          <option value="red">Red</option>
-          <option value="white">White</option>
-          <option value="rose">Rosé</option>
-          <option value="sparkling">Sparkling</option>
-        </select>
-      </div>
-
-      <button type="submit">Save Edit</button>
-    </form>
+          <div>
+            <form action="{{ route('deleted', $item->id) }}" method="POST" onsubmit="return confirm('Delete wine #{{ $item->id }}?');" style="display:inline;">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      @endforeach
+    @endif
   </div>
+
+  <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="btn logout">Logout</button>
+  </form>
+
+  <footer>
+    &copy; {{ date('Y') }} Inventory Management — White Wine Edition 🍷
+  </footer>
+
 </body>
+</html>

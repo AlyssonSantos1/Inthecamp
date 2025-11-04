@@ -117,7 +117,6 @@
     </form>
   </div>
 
-  <!-- Botão de Logout -->
   <form method="POST" action="{{ route('logout') }}">
     @csrf
     <button type="submit" class="logout-btn">Logout</button>
@@ -135,8 +134,7 @@
       if (this.value) {
         typeInput.value = selectedOption.getAttribute('data-type_grape');
         tempInput.value = selectedOption.getAttribute('data-temperature');
-
-        // Atualiza a action do form com o ID escolhido
+        
         form.action = `/changinge/${this.value}`;
       } else {
         typeInput.value = '';
